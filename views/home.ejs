@@ -1,0 +1,23 @@
+<%-include('./partials/header')%>
+    <div class="row">
+        <% for(let food of allFoods){%>
+        <div class="col s12 m4 l3">
+          <div class="card">
+            <div class="card-image">
+            <img src="<%=food.image%>" style="height: 15em;">
+              <span class="card-title" style="font-weight: 400; color:#fb8c00 "><%=food.name%></span>
+            </div>
+            <div class="card-content">
+              <p><%=food.location%> </p>
+            </div>
+            <div class="card-action">
+              <a href="/foods/<%=food.id%>/edit"> <button class="btn orange">Edit</button> </a>
+              <form action="/foods/<%=food.id%>?_method=DELETE" method="POST" style="display: inline;">
+                <button class="btn red">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <%}%>
+      </div>
+<%-include('./partials/footer') %>
