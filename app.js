@@ -57,7 +57,7 @@ app.put('/foods/:id',async(req,res)=>{
     res.send('Hogya update')
 })
 
-//--------delete-----//
+//------- to delete a post-----//
 app.delete('/foods/:id',async(req,res)=>{
     const {id} = req.params
     await Food.findByIdAndDelete(id)
