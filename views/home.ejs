@@ -1,4 +1,10 @@
 <%-include('./partials/header')%>
+<% if(success && success.length) {%>
+<div class="card-panel light-green lighten-3"><%=success%></div>
+<%}%>
+<% if(error && error.length) {%>
+  <div class="card-panel deep-orange darken-3"><%=error%></div>
+  <%}%>
     <div class="row">
         <% for(let food of allFoods){%>
         <div class="col s12 m4 l3">
