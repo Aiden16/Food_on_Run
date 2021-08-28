@@ -1,10 +1,5 @@
 <%-include('./partials/header')%>
-<% if(success && success.length) {%>
-<div class="card-panel light-green lighten-3"><%=success%></div>
-<%}%>
-<% if(error && error.length) {%>
-  <div class="card-panel deep-orange darken-3"><%=error%></div>
-  <%}%>
+<%-include('./partials/flash')%>
     <div class="row">
         <% for(let food of allFoods){%>
         <div class="col s12 m4 l3">
@@ -12,16 +7,22 @@
             <div class="card-image">
             <img src="<%=food.image%>" style="height: 15em;">
               <span class="card-title" style="font-weight: 400; color:#fb8c00 "><%=food.name%></span>
+              <a class="btn-floating halfway-fab waves-effect waves-light red" href='/details'><i class="material-icons">add</i></a>
             </div>
             <div class="card-content">
               <p><%=food.location%> </p>
             </div>
+            <div class="card-action">
+              <span class="card-title">by: <%=food.author.username%></span>
+            </div>
+            <%if(currentUser && food.author.equals(currentUser)){%>
             <div class="card-action">
               <a href="/foods/<%=food.id%>/edit"> <button class="btn orange">Edit</button> </a>
               <form action="/foods/<%=food.id%>?_method=DELETE" method="POST" style="display: inline;">
                 <button class="btn red">Delete</button>
               </form>
             </div>
+          <%}%>
           </div>
         </div>
         <%}%>

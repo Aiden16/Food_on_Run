@@ -1,0 +1,29 @@
+<%-include('../partials/header')%>
+    <div class="container">
+        <div class="row">
+            <form class="col s12" action="/register" method="POST">
+              <div class="row">
+                <div class="input-field col s6">
+                  <input  id="username" type="text" name="username" class="validate">
+                  <label for="username" class="active">Username</label>
+                </div>
+                <div class="input-field col s6">
+                  <input id="email" type="email" name="email" class="validate">
+                  <label for="email" class="active">Email</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input id="password" type="password" name="password" class="validate">
+                  <label for="password"  class="active">Password</label>
+                </div>
+              </div>
+              <div class="row">
+                  <button class="btn-floating btn-large waves-effect waves-light red" type="submit" name="action">
+                    <i class="material-icons right">add</i>
+                  </button>
+              </div>
+            </form>
+          </div>
+    </div>
+    <%-include('../partials/footer')%>

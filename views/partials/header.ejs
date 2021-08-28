@@ -22,13 +22,26 @@
           <ul class="right hide-on-med-and-down">
             <li><a href="/new">New</a></li>
             <li><a href="/">Home</a></li>
+            <%if(!currentUser){%>
+            <li><a href="/register">Register</a></li>
+            
+            <li><a href="/login">login</a></li>
+            <%} else{%>
+            <li><a href="/logout">Logout</a></li>
+            <%}%>
+
           </ul>
         </div>
       </nav>
     
       <ul class="sidenav" id="mobile-demo">
-        <li><a href="/new">New</a></li>
-        <li><a href="/">Home</a></li>
+        <%if(!currentUser){%>
+        <li><a href="/register">Register</a></li>
+        
+        <li><a href="/login">login</a></li>
+        <%} else{%>
+        <li><a href="/logout">Logout</a></li>
+        <%}%>
       </ul>
 </div>
   

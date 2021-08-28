@@ -5,6 +5,10 @@ const path = require('path')
 const mongoose = require('mongoose')
 const Food = require('./models/food')
 const methodOverride = require('method-override')
+//passport
+const passport = require('passport')
+const localStrategy = require('passport-local') 
+const User = require('./models/user')
 const app = express()
 
 
@@ -28,6 +32,13 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.static('public'))
 app.use(methodOverride('_method'))
 
+const isLoggedIn = (req,res,next)=>{
+    if(!req.isAuthenticated()){
+        req.flash('error','You must be logged in!!')
+        return res.redirect('/login')
+    }
+    next()
+}
 
 //--session-----//
 const sessionConfig = {
@@ -45,8 +56,17 @@ app.use(session(sessionConfig))
 
 app.use(flash());
 
+//passport//
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new localStrategy(User.authenticate()))
+
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
 //---flash---//
 app.use((req, res, next) => {
+    res.locals.currentUser = req.user
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
@@ -54,26 +74,31 @@ app.use((req, res, next) => {
 
 //----Home route-----//
 app.get('/',async(req,res)=>{
-    const allFoods = await Food.find({})
-    console.log(allFoods)
+    const allFoods = await Food.find({}).populate('author')
+    // console.log(allFoods)
     res.render('home',{allFoods})
 })
 
 //-----to create new posts----//
-app.get('/new',async(req,res)=>{
+app.get('/new', isLoggedIn ,async(req,res)=>{
     res.render('new')
 })
 
 app.post('/new',async(req,res)=>{
     const newFood = new Food(req.body)
+    newFood.author = req.user.id
     await newFood.save()
     req.flash('success','Successfully created new post')
     console.log(newFood)
     res.redirect('/')
 })
 
+app.get('/details',(req,res)=>{
+    res.send('will be the detail page')
+})
+
 //-----to edit a post-----//
-app.get('/foods/:id/edit',async(req,res)=>{
+app.get('/foods/:id/edit', isLoggedIn , async(req,res)=>{
     const foundItem = await Food.findById(req.params.id)
     // res.send(foundItem)
     if(!foundItem){
@@ -95,6 +120,48 @@ app.delete('/foods/:id',async(req,res)=>{
     const {id} = req.params
     await Food.findByIdAndDelete(id)
     req.flash('success','Successfully deleted your post!')
+    res.redirect('/')
+})
+
+//register and stuff
+
+//register page
+app.get('/register',(req,res)=>{
+    res.render('user/register')
+})
+
+//registered user
+app.post('/register',async(req,res)=>{
+    try{
+    const{username,email,password}=req.body
+    const newUser = new User({email,username})
+    const registerUser = await User.register(newUser,password)
+    console.log(registerUser)
+    req.flash('success','Welcome to food on run!')
+    res.redirect('/')
+    }catch(e){
+        req.flash('error',e.message)
+        res.redirect('/')
+    }
+})
+
+//login user
+//login page
+app.get('/login',(req,res)=>{
+    res.render('user/login')
+})
+
+//authenticate user
+app.post('/login',passport.authenticate('local',{failureFlash:true,failureRedirect:'/login'}),(req,res)=>{
+    req.flash('success',`Welcom ${req.user.username}!`)
+    console.log(req.user)
+    res.redirect('/')
+})
+
+//logout user 
+app.get('/logout',(req,res)=>{
+    req.logout()
+    req.flash('success','Logged you out!')
     res.redirect('/')
 })
 app.listen('3000',async(req,res)=>{
