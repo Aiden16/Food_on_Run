@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV!=="production"){
+    require('dotenv').config()
+}
+console.log(process.env.CLOUDINARY_CLOUD_NAME)
 const express = require('express')
 const session = require('express-session')
 const flash = require('connect-flash');
@@ -11,6 +15,12 @@ const localStrategy = require('passport-local')
 const User = require('./models/user')
 const app = express()
 
+//cloudinary
+const multer  = require('multer')
+const {storage} = require('./cloudinary/index')
+
+//to upload files to cloud
+const upload = multer({ storage })
 
 //---mongoose setup-----//
 mongoose.connect('mongodb://localhost:27017/foodRun', {
@@ -84,17 +94,22 @@ app.get('/new', isLoggedIn ,async(req,res)=>{
     res.render('new')
 })
 
-app.post('/new',async(req,res)=>{
+app.post('/new',upload.array('image'),async(req,res)=>{
+    // console.log(req.body)
     const newFood = new Food(req.body)
     newFood.author = req.user.id
+    newFood.images=req.files.map(f=>({url:f.path,filename:f.filename}))
     await newFood.save()
-    req.flash('success','Successfully created new post')
     console.log(newFood)
+    req.flash('success','Successfully created new post')
+    // console.log(newFood)
     res.redirect('/')
 })
 
-app.get('/details',(req,res)=>{
-    res.send('will be the detail page')
+app.get('/foods/:id/show',async(req,res)=>{
+    const food = await Food.findById(req.params.id)
+    console.log(food)
+    res.render('show',{food})
 })
 
 //-----to edit a post-----//

@@ -1,14 +1,15 @@
 <%-include('./partials/header')%>
     <div class="container">
         <div class="row">
-            <form class="col s12" action="/new" method="POST">
+            <form class="col s12" action="/new" method="POST" enctype="multipart/form-data">
               <div class="row">
                 <div class="input-field col s6">
                   <input  id="food_name" type="text" name="name" class="validate">
                   <label for="food_name" class="active">Food Name</label>
                 </div>
                 <div class="input-field col s6">
-                  <input id="food_image" type="text" name="image" class="validate">
+                  <!-- <input id="food_image" type="text" name="image" class="validate"> -->
+                  <input type="file" name="image" multiple>
                   <label for="food_image" class="active">Image</label>
                 </div>
               </div>

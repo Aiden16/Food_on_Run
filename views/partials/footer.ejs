@@ -1,19 +1,29 @@
       <!-- Compiled and minified JavaScript -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
                
       <script>
+        M.Sidenav.init(document.querySelector('.sidenav'))
+
         document.addEventListener('DOMContentLoaded', function() {
-            var elems = document.querySelectorAll('.sidenav');
-            var instances = M.Sidenav.init(elems, options);
-          });
-          M.Sidenav.init(document.querySelector('.sidenav'))
-          M.FormSelect.init(document.querySelector('#status'))
+          M.AutoInit();
+        
+          var options = {
+            fullWidth: true,
+            indicators: true
+          };
+          var elems = document.querySelector('.carousel');
+          var instances = M.Carousel.init(elems, options);
+          
+        })
+
+
+        
 
           
-        $(document).ready(function() {
-            $('input#input_text, textarea#textarea2').characterCounter();
-        });
-          
+        
+
       </script>
 </body>
 </html>

@@ -9,11 +9,26 @@
 
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
     <title>Home</title>
 
 </head>
 
 <body>
+ 
+  <ul class="sidenav" id="mobile-demo">
+    <%if(!currentUser){%>
+      <li><a href="/">Home</a></li>
+    <li><a href="/register">Register</a></li>
+    <li><a href="/login">login</a></li>
+    <%} else{%>
+      <li><a href="/">Home</a></li>
+
+    <li><a href="/logout">Logout</a></li>
+    <%}%>
+  </ul>
+         
 <div class="navbar-fixed">
     <nav class="grey darken-3">
         <div class="nav-wrapper">
@@ -33,15 +48,8 @@
           </ul>
         </div>
       </nav>
-    
-      <ul class="sidenav" id="mobile-demo">
-        <%if(!currentUser){%>
-        <li><a href="/register">Register</a></li>
-        
-        <li><a href="/login">login</a></li>
-        <%} else{%>
-        <li><a href="/logout">Logout</a></li>
-        <%}%>
-      </ul>
+
 </div>
+
+
   
