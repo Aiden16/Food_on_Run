@@ -1,7 +1,8 @@
 <%-include('./partials/header')%>
+<%-include('./partials/flash')%>
 <div class="container">
     <div class="row">
-        <div class="col s12 m7">
+        <div class="col s12 m8">
           <div class="card">
             <div class="card-image">
                 <div class="carousel carousel-slider">
@@ -21,8 +22,41 @@
             </div>
           </div>
         </div>
+        <div class="col s12 m4">
+          <div class="card">
+        <div id='map' style='width: 400px; height: 300px;'></div>
+      </div>
+        </div>
       </div>
 
+<script>
+mapboxgl.accessToken = 'pk.eyJ1Ijoibml0aXNoMTYiLCJhIjoiY2toeDV5cDc2MDB6czJxbm1mZHMwejN5biJ9.7QXCJaIVyN6y93sFfyidyQ';
+const map = new mapboxgl.Map({
+container: 'map', // container ID
+style: 'mapbox://styles/mapbox/navigation-night-v1', // style URL
+center: [<%-food.coordinates%>], // starting position [lng, lat]
+zoom: 15 // starting zoom
+});
+
+
+//setting point
+// Set marker options.
+const marker = new mapboxgl.Marker({
+  color: "#1687A7",
+})
+  .setLngLat([<%-food.coordinates%>])
+  .setPopup(
+    new mapboxgl.Popup({offset:7})
+    .setHTML(
+        `<h3><%=food.name%></h3><p><%=food.location%></p>`
+    )
+)
+  .addTo(map);
+
+marker()
+
+
+</script>
         
-      <%-include('./partials/footer')%>
+<%-include('./partials/footer')%>
     

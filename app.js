@@ -15,6 +15,11 @@ const localStrategy = require('passport-local')
 const User = require('./models/user')
 const app = express()
 
+//mapbox
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding')
+const mapBoxToken = process.env.MAPBOX_TOKEN
+const geoCoder = mbxGeocoding({accessToken : mapBoxToken})
+
 //cloudinary
 const multer  = require('multer')
 const {storage} = require('./cloudinary/index')
@@ -95,20 +100,30 @@ app.get('/new', isLoggedIn ,async(req,res)=>{
 })
 
 app.post('/new',upload.array('image'),async(req,res)=>{
-    // console.log(req.body)
+    const geoData = await geoCoder.forwardGeocode({
+        query:req.body.location,
+        limit:1
+    }).send()
+    console.log('=================================================')
+    // [ 77.59796, 12.96991 ]
+    // console.log('====>',geoData.body.features[0].geometry.coordinates)
+    console.log('=================================================')
+    // res.send(geoData)
     const newFood = new Food(req.body)
     newFood.author = req.user.id
     newFood.images=req.files.map(f=>({url:f.path,filename:f.filename}))
+    newFood.coordinates.push(geoData.body.features[0].geometry.coordinates[0])
+    newFood.coordinates.push(geoData.body.features[0].geometry.coordinates[1])
     await newFood.save()
     console.log(newFood)
     req.flash('success','Successfully created new post')
-    // console.log(newFood)
-    res.redirect('/')
+    // // console.log(newFood)
+    res.redirect(`/foods/${newFood.id}/show`)
 })
 
 app.get('/foods/:id/show',async(req,res)=>{
     const food = await Food.findById(req.params.id)
-    console.log(food)
+    console.log(food.coordinates)
     res.render('show',{food})
 })
 
