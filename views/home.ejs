@@ -19,14 +19,14 @@
             <div class="card-action">
               <span class="card-title">by: <%=food.author.username%></span>
             </div>
-            <%if(currentUser && food.author.equals(currentUser)){%>
+            <!-- <%if(currentUser && food.author.equals(currentUser)){%>
             <div class="card-action">
               <a href="/foods/<%=food.id%>/edit"> <button class="btn orange">Edit</button> </a>
               <form action="/foods/<%=food.id%>?_method=DELETE" method="POST" style="display: inline;">
                 <button class="btn red">Delete</button>
               </form>
             </div>
-          <%}%>
+          <%}%> -->
           </div>
         </div>
         <%}%>

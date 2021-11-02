@@ -18,6 +18,10 @@ const foodSchema = new Schema({
      author:{
          type:mongoose.Schema.Types.ObjectId,
          ref:'User'
+     },
+     booked:{
+         type:mongoose.Schema.Types.ObjectId,
+         ref:'User'
      }
  })
 

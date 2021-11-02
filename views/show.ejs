@@ -18,7 +18,25 @@
               I am convenient because I require little markup to use effectively.</p>
             </div>
             <div class="card-action">
-              <a href="#">This is a link</a>
+              <!-- <a href="#">This is a link</a> -->
+              <% if(currentUser && food.author.equals(currentUser)){%>
+                          <%if(!food.booked){%>
+                            <button class="btn green">Yet to be book</button>
+                          <% } else {%>
+                            <a class="btn red"><i class="material-icons left">done</i>Booked by <%=food.booked.username%></a>
+
+                          <%}%>
+                <a href="/foods/<%=food.id%>/edit"> <button class="btn orange">Edit</button> </a>
+                <form action="/foods/<%=food.id%>?_method=DELETE" method="POST" style="display: inline;">
+                  <button class="btn red">Delete</button>
+                </form>
+              <% } else if (!food.booked){%>
+                <form action="/<%=food.id%>/book" method="post">
+                  <button type="submit" class="btn green">Book</button>
+                </form>
+              <%} else {%>
+                  <a class="btn red"><i class="material-icons left">done</i>Booked by <%=food.booked.username%></a>
+                <%}%>
             </div>
           </div>
         </div>

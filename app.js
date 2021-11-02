@@ -121,8 +121,21 @@ app.post('/new',upload.array('image'),async(req,res)=>{
     res.redirect(`/foods/${newFood.id}/show`)
 })
 
-app.get('/foods/:id/show',async(req,res)=>{
+//to book
+app.post('/:id/book',async(req,res)=>{
     const food = await Food.findById(req.params.id)
+    console.log(food)
+    food.booked=req.user.id
+    await food.save()
+    res.redirect(`/foods/${food.id}/show`)
+    // res.send(food)
+    // console.log(food.booked.username)
+    // console.log(req.user.id)
+
+})
+
+app.get('/foods/:id/show',async(req,res)=>{
+    const food = await Food.findById(req.params.id).populate('booked').populate('author')
     console.log(food.coordinates)
     res.render('show',{food})
 })
