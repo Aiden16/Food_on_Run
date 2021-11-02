@@ -122,7 +122,7 @@ app.post('/new',upload.array('image'),async(req,res)=>{
 })
 
 //to book
-app.post('/:id/book',async(req,res)=>{
+app.post('/:id/book',isLoggedIn, async(req,res)=>{
     const food = await Food.findById(req.params.id)
     console.log(food)
     food.booked=req.user.id
