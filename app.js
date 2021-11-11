@@ -27,8 +27,10 @@ const {storage} = require('./cloudinary/index')
 //to upload files to cloud
 const upload = multer({ storage })
 
+const dbUrl = process.env.DB_URL||'mongodb://localhost:27017/foodRun'
+
 //---mongoose setup-----//
-mongoose.connect('mongodb://localhost:27017/foodRun', {
+mongoose.connect(dbUrl , {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex:true
@@ -207,6 +209,7 @@ app.get('/logout',(req,res)=>{
     req.flash('success','Logged you out!')
     res.redirect('/')
 })
-app.listen('3000',async(req,res)=>{
+const PORT = process.env.PORT||3000
+app.listen(PORT,async(req,res)=>{
     console.log('App is running......')
 })
