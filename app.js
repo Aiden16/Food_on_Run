@@ -102,6 +102,7 @@ app.get('/new', isLoggedIn ,async(req,res)=>{
 })
 
 app.post('/new',upload.array('image'),async(req,res)=>{
+    console.log(req.body)
     const geoData = await geoCoder.forwardGeocode({
         query:req.body.location,
         limit:1

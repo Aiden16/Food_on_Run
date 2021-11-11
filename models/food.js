@@ -12,9 +12,11 @@ const foodSchema = new Schema({
      name:String,
      images:[ImageSchema],
      location:String,
+     contact:String,
      coordinates:[{
          type:Number
      }],
+     description:String,
      author:{
          type:mongoose.Schema.Types.ObjectId,
          ref:'User'

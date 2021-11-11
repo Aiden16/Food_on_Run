@@ -11,17 +11,21 @@
                     <%}%>
                   </div>
    
-              <span class="card-title">Card Title</span>
+              <span class="card-title" style="color: orange;font-weight:800"><%=food.name%></span>
             </div>
             <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
+              <p><%=food.description%></p>
             </div>
+
+            <div class="card-action">
+              <button class="btn"><i class="material-icons left" style="color:#fff">contact_phone</i> <em><%=food.contact%></em></button>
+            </div>
+            
             <div class="card-action">
               <!-- <a href="#">This is a link</a> -->
               <% if(currentUser && food.author.equals(currentUser)){%>
                           <%if(!food.booked){%>
-                            <button class="btn green">Yet to be book</button>
+                            <button class="btn green" style="margin-right: 20px;">Yet to be book</button>
                           <% } else {%>
                             <a class="btn red"><i class="material-icons left">done</i>Booked by <%=food.booked.username%></a>
 
