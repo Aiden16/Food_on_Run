@@ -158,7 +158,7 @@ app.put('/foods/:id',async(req,res)=>{
     const {id} = req.params
     await Food.findByIdAndUpdate(id,req.body)
     req.flash('success','Post edited successfully!')
-    res.redirect('/')
+    res.redirect(`/foods/${id}/show`)
 })
 
 //------- to delete a post-----//

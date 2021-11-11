@@ -4,20 +4,27 @@
         <div class="row">
             <form class="col s12" action="/foods/<%=foundItem.id%>?_method=PUT" method="POST">
               <div class="row">
-                <div class="input-field col s6">
+                <div class="input-field col s12 ">
                   <input  id="food_name" type="text" name="name" value="<%=foundItem.name%>" class="validate">
                   <label for="food_name" class="active">Food Name</label>
                 </div>
+              </div>
+              <div class="row">
                 <div class="input-field col s6">
-                  <input id="food_image" type="text" name="image" value="<%=foundItem.image%>" class="validate">
-                  <label for="food_image" class="active">Image</label>
+                  <input id="location"  name="location" class="validate" value="<%=foundItem.location%>">
+                  <label for="location" class="active">Location</label>
+                </div>
+                <div class="input-field col s6">
+                  <input id="contact"  name="contact" value="<%=foundItem.contact%>" class="validate">
+                  <label for="contact" class="active">Contact</label>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s12">
-                  <input id="location"  name="location" value="<%=foundItem.location%>" class="validate">
-                  <label for="location" class="active">Location</label>
+                  <input type="text" name="description" class="validate" id="description" value="<%=foundItem.description %>">
+                  <label for="description" class="active">Description</label>
                 </div>
+              </div>
               </div>
               <div class="row">
                   <button class="btn-floating btn-large waves-effect waves-light red" type="submit" name="action">
